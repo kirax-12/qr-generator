@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Generator — Bikin Kode QR dalam Hitungan Detik</title>
+<meta name="description" content="Bikin kode QR dari teks, link, atau WiFi. Atur ukuran dan warna, lihat pratinjau langsung, lalu unduh sebagai PNG. Gratis, tanpa daftar, semua diproses di browser kamu.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Space+Mono:wght@400;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="#top">QR<span>Generator</span></a>
+  <nav class="site-nav" aria-label="Navigasi utama">
+    <a href="#bikin">Bikin QR</a>
+    <a href="#cara">Cara Pakai</a>
+  </nav>
+</header>
+<div class="tape" aria-hidden="true"><span>Bikin QR * Gratis * Tanpa Daftar * Langsung Jadi * Bikin QR * Gratis * Tanpa Daftar * Langsung Jadi *&nbsp;</span></div>
+
+<main id="top">
+  <section class="hero">
+    <p class="hero-kicker">Tools kecil · kepake terus</p>
+    <h1>Kode QR jadi sebelum kopi kamu <span class="hl">dingin.</span></h1>
+    <p class="hero-sub">Tempel link, tulis teks, atau masukin password WiFi kos — pratinjau langsung berubah selagi kamu ngetik. Udah sreg? Unduh PNG-nya, beres. <strong>Semua diproses di browser kamu</strong>, nggak ada data yang dikirim ke server.</p>
+  </section>
+
+  <section id="bikin" class="app" aria-label="Pembuat kode QR">
+    <div class="panel panel-form">
+      <div class="tabs" role="tablist" aria-label="Jenis konten QR">
+        <button class="tab is-active" id="tab-text" type="button" role="tab" aria-selected="true" aria-controls="panel-text" data-mode="text">Teks / Link</button>
+        <button class="tab" id="tab-wifi" type="button" role="tab" aria-selected="false" aria-controls="panel-wifi" data-mode="wifi">WiFi</button>
+      </div>
+
+      <div id="panel-text" role="tabpanel" aria-labelledby="tab-text">
+        <div class="field">
+          <label for="input-text">Isi QR-nya apa?</label>
+          <textarea id="input-text" rows="4" maxlength="1500" placeholder="cth. https://github.com/kirax-12 atau teks apa pun" autocomplete="off">https://github.com/kirax-12</textarea>
+          <p class="field-hint">Link, nomor WA, alamat, sampai curhat singkat juga bisa.</p>
+        </div>
+      </div>
+
+      <div id="panel-wifi" role="tabpanel" aria-labelledby="tab-wifi" hidden>
+        <div class="field">
+          <label for="input-ssid">Nama WiFi (SSID)</label>
+          <input id="input-ssid" type="text" maxlength="64" placeholder="cth. WiFi Kos Lantai 2" autocomplete="off">
+        </div>
+        <div class="field" id="wifi-pass-field">
+          <label for="input-wifi-pass">Password WiFi</label>
+          <input id="input-wifi-pass" type="text" maxlength="64" placeholder="cth. kopipahit123" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="input-wifi-enc">Tipe keamanan</label>
+          <select id="input-wifi-enc">
+            <option value="WPA" selected>WPA / WPA2 (paling umum)</option>
+            <option value="WEP">WEP (jadul)</option>
+            <option value="nopass">Tanpa password</option>
+          </select>
+          <p class="field-hint">Teman tinggal scan, HP langsung nyambung. Nggak perlu eja password lagi.</p>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="input-size">Ukuran PNG</label>
+          <select id="input-size">
+            <option value="256">256 × 256 — buat chat</option>
+            <option value="512" selected>512 × 512 — buat sosmed</option>
+            <option value="1024">1024 × 1024 — buat cetak</option>
+          </select>
+        </div>
+        <div class="field field-colors">
+          <span class="field-label" id="color-label">Warna</span>
+          <div class="color-row" role="group" aria-labelledby="color-label">
+            <label class="color-pick">
+              <input type="color" id="input-fg" value="#111111">
+              <span>Kode</span>
+            </label>
+            <label class="color-pick">
+              <input type="color" id="input-bg" value="#ffffff">
+              <span>Latar</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <p class="field-hint">Tips: jaga kontrasnya tinggi (kode gelap, latar terang) biar gampang di-scan. Kamera HP pemilih soal ini.</p>
+    </div>
+
+    <div class="panel panel-preview">
+      <p class="preview-kicker">Pratinjau langsung</p>
+      <div class="canvas-wrap">
+        <canvas id="qr-canvas" width="512" height="512" role="img" aria-label="Pratinjau kode QR"></canvas>
+      </div>
+      <p class="payload mono" id="payload-preview" aria-live="polite"></p>
+      <p class="error" id="error-msg" role="alert" hidden></p>
+      <button class="btn btn-download" id="download-button" type="button">Download PNG →</button>
+      <p class="preview-note">Level koreksi error M — QR tetap kebaca walau kena coret dikit.</p>
+    </div>
+  </section>
+
+  <section id="cara" class="section">
+    <h2>Cara pakainya</h2>
+    <span class="section-sub">tiga langkah, nggak sampai semenit ↓</span>
+    <ol class="steps">
+      <li><strong>Pilih jenisnya.</strong> Teks/Link buat apa pun, WiFi buat berbagi jaringan tanpa eja password.</li>
+      <li><strong>Atur tampilannya.</strong> Pilih ukuran sesuai kebutuhan — kecil buat chat, besar buat dicetak — lalu sesuaikan warna.</li>
+      <li><strong>Unduh dan pakai.</strong> Klik Download PNG, tempel di poster, stiker, meja kasir, atau kirim ke grup keluarga.</li>
+    </ol>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>Dibuat oleh Remike Dev</p>
+    <p><a href="https://github.com/kirax-12" target="_blank" rel="noopener">github.com/kirax-12</a></p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
