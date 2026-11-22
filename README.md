@@ -1,5 +1,7 @@
 # QR Generator
 
+**Demo live:** [qr-generator di GitHub Pages](https://kirax-12.github.io/qr-generator/)
+
 Bikin kode QR dari teks, link, atau WiFi — langsung dari browser, tanpa daftar dan tanpa server. Ketik isinya, pratinjau berubah saat itu juga, lalu unduh hasilnya sebagai PNG.
 
 ## Fitur
